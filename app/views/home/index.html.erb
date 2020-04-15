@@ -7,7 +7,9 @@
   <%= text_field_tag 'ticker', nil, placeholder: "
       Enter Ticket Symbol", size: 50, class: 'form-control' %>
       <br/>
-  <%= submit_tag 'Lookup', class: 'btn btn-secondary btn-lg btn-block' %>
+        <%= button_tag(type: :submit, class: 'btn btn-secondary btn-lg btn-block') do %>
+          <i class="fa fa-search"></i> Look Up a Stock
+        <% end %>
   <% end %>
     </div>
 <br/>

@@ -1,35 +1,36 @@
 <div class="col-md-6 offset-md-3">
   <div class="jumbotron">
-<h2>Log in</h2>
-<br/>
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-group">
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
-  </div>
+    <h2>Log in</h2>
+    <br/>
+    <%= bootstrap_devise_error_messages! %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group">
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+        </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password", class: 'form-control' %>
-  </div>
+        <div class="field">
+          <%= f.label :password %><br />
+          <%= f.password_field :password, autocomplete: "current-password", class: 'form-control' %>
+        </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
-<br/>
-  <div class="actions">
-    <%= f.submit "Log in", class: 'btn btn-secondary btn-lg btn-block' %>
-  </div>
-  </div>
-<% end %>
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end %>
+        <br/>
+        <div class="actions">
+          <%= f.submit "Log in", class: 'btn btn-secondary btn-lg btn-block' %>
+        </div>
+      </div>
+    <% end %>
     <br/>
     <hr>
     <p>Don't have an account?</p>
 
-<%= render "devise/shared/links" %>
-</div>
+    <%= render "devise/shared/links" %>
+  </div>
 </div>
