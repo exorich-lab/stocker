@@ -1,0 +1,15 @@
+<div class="col-md-6 offset-md-3">
+  <div class="jumbotron">
+
+<h3>Editing Stock</h3>
+<br/><br/>
+<%= render 'form', stock: @stock %>
+  </div>
+  <div class="col-md-6 offset-md-3">
+  <div class="jumbotron">
+    <%= link_to 'Show this Stock', @stock, class: 'btn btn-secondary btn-lg btn-block' %>
+    <hr>
+<%= link_to 'Back', stocks_path, class: 'btn btn-secondary btn-lg btn-block' %>
+  </div>
+</div>
+</div>

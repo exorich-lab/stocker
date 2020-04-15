@@ -1,0 +1,41 @@
+<table class="table table-bordered table-hover table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Company</th>
+      <th>Ticker</th>
+      <th>Current Price</th>
+      <th>Market Cap</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @stocks.each do |stock| %>
+<% if stock.user_id == current_user.id %>
+      <% @ticker = StockQuote::Stock.quote(stock.ticker) %>
+        <tr>
+          <td><%= link_to @ticker.company_name, stock %></td>
+          <td><%= @ticker.symbol %></td>
+          <td>$<%= number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',' ) %></td>
+          <td>$<%= number_with_precision(@ticker.market_cap, :precision => 2, :delimiter => ',' ) %></td>
+
+          <td><center>
+            <%= link_to(edit_stock_path(stock), class: 'btn btn-secondary') do %>
+              <i class="far fa-edit"></i> Edit
+            <% end %>
+          </center></td>
+          <td><center>
+          <%= link_to(stock, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger') do %>
+            <i class="far fa-trash-alt"></i> Delete
+          <% end %>
+            </center></td>
+        </tr>
+  <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to(new_stock_path, class: 'btn btn-success') do %>
+  <i class="fas fa-plus"></i> New Stock
+<% end %>
