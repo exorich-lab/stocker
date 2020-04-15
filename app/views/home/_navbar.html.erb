@@ -19,28 +19,42 @@
         <li class="nav-item">
           <%= link_to "Add Stock", new_stock_path, class:"nav-link" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Logout", destroy_user_session_path, method: :delete, class:"nav-link" %>
-        </li>
 
       <% else %>
         <li class="nav-item">
-          <%= link_to "Login", new_user_session_path, class:"nav-link" %>
-        </li>
-        <li class="nav-item">
           <%= link_to "Sign Up", new_user_registration_path, class:"nav-link" %>
         </li>
-
-
-
         <% end %>
     </ul>
-    <%= form_tag root_path, :method => 'POST', class: 'form-inline my-2 my-lg-0' do %>
-      <%= text_field_tag 'ticker', nil, placeholder: "
-        Search Ticker", size: 20, class: 'form-control mr-sm-2' %>
-      <%= button_tag(type: :submit, class: 'btn btn-outline-secondary my-2 my-sm-0') do %>
-        <i class="fa fa-search"></i> Look Up
-      <% end %>
+
+
+      <li class="navbar-nav mr-md-auto">
+        <%= form_tag root_path, :method => 'POST', class: 'form-inline my-2 my-lg-0' do %>
+          <%= text_field_tag 'ticker', nil, placeholder: "
+        Search Ticker", size: 15, class: 'form-control mr-sm-3' %>
+          <%= button_tag(type: :submit, class: 'btn btn-outline-secondary my-3 my-sm-0') do %>
+            <i class="fa fa-search"></i> Look Up
+          <% end %>
+        <% end %>
+      </li>
+
+
+    <% if user_signed_in? %>
+      <ul class="navbar-nav dropdown-menu-right">
+        <li class="nav-item">
+          <%= link_to "Logout #{current_user.email}", destroy_user_session_path, method: :delete, class:"nav-link" %>
+        </li>
+      </ul>
+      <% else %>
+      <ul class="navbar-nav dropdown-menu-right">
+      <li class="nav-item">
+        <%= link_to "Login", new_user_session_path, class:"nav-link" %>
+      </li>
+      </ul>
     <% end %>
+
   </div>
+
+
+
 </nav>
