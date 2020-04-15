@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class StocksController < ApplicationController
-  before_action :set_stock, only: [:show, :edit, :update, :destroy]
-  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_stock, only: %i[show edit update destroy]
+  before_action :correct_user, only: %i[show edit update destroy]
   before_action :authenticate_user!
   # GET /stocksß
   # GET /stocks.json
@@ -8,10 +10,20 @@ class StocksController < ApplicationController
     @stocks = Stock.all
   end
 
+  def check_symbol(ticker)
+    symbol = StockQuote::Stock.quote(ticker)
+    unless symbol.nil?
+      flash[:symbol_exist] = "#{ticker.upcase!} Exist. Save...!"
+      true
+    end
+  rescue StandardError
+    flash[:forgotsymbol] = "Hey! That Stock Symbol Doesn't Exist. Please Try Again!"
+    false
+  end
+
   # GET /stocks/1
   # GET /stocks/1.json
-  def show
-  end
+  def show; end
 
   # GET /stocks/new
   def new
@@ -19,8 +31,7 @@ class StocksController < ApplicationController
   end
 
   # GET /stocks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /stocks
   # POST /stocks.json
@@ -28,6 +39,7 @@ class StocksController < ApplicationController
     @stock = Stock.new(stock_params)
 
     respond_to do |format|
+
       if @stock.save
         format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
         format.json { render :show, status: :created, location: @stock }
@@ -64,18 +76,20 @@ class StocksController < ApplicationController
 
   def correct_user
     @ticker = current_user.stocks.find_by(id: params[:id])
-    redirect_to stocks_path, notice: 'Not Authorized to edit this stock' if @ticker.nil?
+    if @ticker.nil?
+      redirect_to stocks_path, notice: 'Not Authorized to edit this stock'
+    end
   end
 
-
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stock
-      @stock = Stock.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def stock_params
-      params.require(:stock).permit(:ticker, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_stock
+    @stock = Stock.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def stock_params
+    params.require(:stock).permit(:ticker, :user_id)
+  end
 end
