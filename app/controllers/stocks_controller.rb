@@ -13,11 +13,9 @@ class StocksController < ApplicationController
   def check_symbol(ticker)
     symbol = StockQuote::Stock.quote(ticker)
     unless symbol.nil?
-      flash[:symbol_exist] = "#{ticker.upcase!} Exist. Save...!"
       true
     end
   rescue StandardError
-    flash[:forgotsymbol] = "Hey! That Stock Symbol Doesn't Exist. Please Try Again!"
     false
   end
 
@@ -36,23 +34,29 @@ class StocksController < ApplicationController
   # POST /stocks
   # POST /stocks.json
   def create
-    @stock = Stock.new(stock_params)
+    if check_symbol(stock_params[:ticker])
 
-    respond_to do |format|
+      @stock = Stock.new(stock_params)
 
-      if @stock.save
-        format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
-        format.json { render :show, status: :created, location: @stock }
-      else
-        format.html { render :new }
-        format.json { render json: @stock.errors, status: :unprocessable_entity }
+      respond_to do |format|
+
+        if @stock.save
+          format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
+          format.json { render :show, status: :created, location: @stock }
+        else
+          format.html { render :new }
+          format.json { render json: @stock.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to new_stock_path, notice: "Hey! That Stock Symbol Doesn't Exist. Please Try Again!"
     end
-  end
+    end
 
   # PATCH/PUT /stocks/1
   # PATCH/PUT /stocks/1.json
   def update
+    if check_symbol(stock_params[:ticker])
     respond_to do |format|
       if @stock.update(stock_params)
         format.html { redirect_to @stock, notice: 'Stock was successfully updated.' }
@@ -61,6 +65,9 @@ class StocksController < ApplicationController
         format.html { render :edit }
         format.json { render json: @stock.errors, status: :unprocessable_entity }
       end
+    end
+    else
+      redirect_to @stock, notice: "Hey! That Stock Symbol Doesn't Exist. Please Try Again!"
     end
   end
 
