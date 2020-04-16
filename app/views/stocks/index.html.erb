@@ -6,6 +6,7 @@
       <th>Ticker</th>
       <th>Current Price</th>
       <th>Market Cap</th>
+      <th>Yesterday Change</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -15,19 +16,25 @@
 <% if stock.user_id == current_user.id %>
       <% @ticker = StockQuote::Stock.quote(stock.ticker) %>
         <tr>
-          <td><%= link_to @ticker.company_name, stock %></td>
+          <td><%= @ticker.company_name %></td>
           <td><%= @ticker.symbol %></td>
-          <td>$<%= number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',' ) %></td>
-          <td>$<%= number_with_precision(@ticker.market_cap, :precision => 2, :delimiter => ',' ) %></td>
-
+          <td>$ <%= number_with_precision(@ticker.latest_price, :precision => 2, :delimiter => ',' ) %></td>
+          <td>$ <%= number_with_precision(@ticker.market_cap, :precision => 2, :delimiter => ',' ) %></td>
+          <td><center>
+          <% if @ticker.ytd_change.positive? %>
+              <p class="text-success"><i class="fas fa-long-arrow-alt-up"></i> <%= @ticker.ytd_change.round(2) %> %</p></center>
+              <% else %>
+              <p class="text-danger"><i class="fas fa-long-arrow-alt-down"></i> <%= @ticker.ytd_change.round(2) %> %</p></center>
+          <% end %>
+           </td>
           <td><center>
             <%= link_to(edit_stock_path(stock), class: 'btn btn-secondary') do %>
-              <i class="far fa-edit"></i> Edit
+              <i class="far fa-edit"></i>
             <% end %>
           </center></td>
           <td><center>
           <%= link_to(stock, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger') do %>
-            <i class="far fa-trash-alt"></i> Delete
+            <i class="far fa-trash-alt"></i>
           <% end %>
             </center></td>
         </tr>

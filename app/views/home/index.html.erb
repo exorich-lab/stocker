@@ -1,22 +1,61 @@
 <% if @stock %>
-  <div class="col-md-6 offset-md-3">
-    <div class="jumbotron">
-      <%= @stock.company_name %><br/>
-      $<%= @stock.latest_price %><br/>
+  <div class="row">
+    <div class="col-sm-6 border-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= @stock.company_name %></h5>
+          <p class="card-text"><%= @company.description %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 border-0 text-center">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Summary</h5>
+          <p class="card-text">
+            CEO: <%= @company.ceo %><br/>
+            Sector: <%= @company.sector %><br/>
+            Employees: <%= @company.employees %>
+            <hr>
+            Address: <%= @company.address %><br/>
+            City: <%= @company.city %><br/>
+            Zip: <%= @company.zip %><br/>
+            Country: <%= @company.country %><br/>
+            Phone: <%= @company.phone %>
+          <hr>
+          <% @company.tags.each  do |tag| %>
+          <%= tag %>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 border-0 text-center">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= " Ticker: #{@stock.symbol}" %></h5>
+          <img class="card-img-top mb-3 w-auto" alt="<%= @stock.company_name %>" src="<%= @logo.url %>">
+          <%= link_to(@company.website, target: "_blank", class:"btn btn-success btn-lg") do %>
+            <i class="fas fa-external-link-alt"></i><%= " Website" %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<br/>
+  <hr>
 <% end %>
-</div>
-</div>
+
 
 <div class="col-md-6 offset-md-3">
   <div class="jumbotron">
-
 <h3>Search Stock by Ticker</h3>
     <div class="form-group">
 <%= form_tag root_path, :method => 'POST' do %>
   <%= text_field_tag 'ticker', nil, placeholder: "
       Enter Ticket Symbol", size: 50, class: 'form-control' %>
       <br/>
-        <%= button_tag(type: :submit, class: 'btn btn-secondary btn-lg btn-block') do %>
+        <%= button_tag(type: :submit, class: 'btn btn-success btn-lg btn-block') do %>
           <i class="fa fa-search"></i> Look Up a Stock
         <% end %>
   <% end %>

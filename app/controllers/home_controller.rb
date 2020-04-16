@@ -6,7 +6,9 @@ class HomeController < ApplicationController
       flash[:forgotsymbol] = 'Hey! You Forgot To Enter A Symbol'
     elsif params[:ticker]
       begin
+        @company = StockQuote::Stock.company(params[:ticker])
         @stock = StockQuote::Stock.quote(params[:ticker])
+        @logo = StockQuote::Stock.logo(params[:ticker])
       rescue StandardError
         @stock = nil
         if @stock.nil?

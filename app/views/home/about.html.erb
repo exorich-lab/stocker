@@ -1,2 +1,45 @@
-<h1>ABOUT</h1>
-<p>Мое новое приложение</p>
+<main role="main">
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h2 class="display-3">About Stocker</h2>
+      <p>Stocker is a free application for tracking the financial performance of companies trading their shares on international exchanges.</p>
+      <p><%= link_to("https://github.com/exorich-lab/stocker/", class:"btn btn-success btn-lg") do %>
+        <%= "Explore Stocker on GitHub  " %><i class="fab fa-github-alt"></i> &raquo;
+      <% end %>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-4">
+        <h4>Create your own stocks portfolio</h4>
+        <p>Keep track of key indicators of companies whose stocks are traded on exchanges.</p>
+        <p><%= link_to "Show My Stocks", stocks_path, class:"btn btn-secondary" %></p>
+      </div>
+      <div class="col-md-4">
+        <h2>Search by Ticker</h2>
+        <p>Just enter a ticker and click search. For Example: 'AMZN'</p>
+        <%= form_tag root_path, :method => 'POST' do %>
+          <%= text_field_tag 'ticker', nil, type: :hidden, size: 3, value: 'AMZN' %>
+          <br/>
+          <%= button_tag(type: :submit, class: 'btn btn-secondary') do %>
+            AMZN Lookup
+          <% end %>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <h2>Create Account</h2>
+        <p>Register your free account now.</p>
+
+      </div>
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+
+</main>
