@@ -25,7 +25,6 @@
         <p>Just enter a ticker and click search. For Example: 'AMZN'</p>
         <%= form_tag root_path, :method => 'POST' do %>
           <%= text_field_tag 'ticker', nil, type: :hidden, size: 3, value: 'AMZN' %>
-          <br/>
           <%= button_tag(type: :submit, class: 'btn btn-secondary') do %>
             AMZN Lookup
           <% end %>
@@ -33,7 +32,7 @@
       </div>
       <div class="col-md-4">
         <h2>Create Account</h2>
-        <p>Register your free account now.</p>
+        <p>Register your free account now and start analyzing the market.</p>
         <p><%= link_to "Sign Up", new_user_registration_path, class:"btn btn-secondary" %></p>
       </div>
     </div>
